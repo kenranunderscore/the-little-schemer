@@ -1,20 +1,21 @@
 #lang racket
 
 (require "prelude.rkt")
+(require rackunit)
 
-(lat? '(Jack Sprat could eat no chicken fat)) ; #t
+(check-true (lat? '(Jack Sprat could eat no chicken fat)))
 
-(lat? '((Jack) Sprat could eat no chicken fat)) ; #f
+(check-false (lat? '((Jack) Sprat could eat no chicken fat)))
 
-(lat? '(Jack (Sprat could) eat no chicken fat)) ; #t
+(check-false (lat? '(Jack (Sprat could) eat no chicken fat)))
 
-(lat? '()) ; #t
+(check-true (lat? '()))
 
-(or (null? '()) (atom? '(d e f g))) ; #t, since the first question is true
+(check-true (or (null? '()) (atom? '(d e f g))))
 
-(or (null? '(a b c)) (null? '())) ; #t, since the second question is true
+(check-true (or (null? '(a b c)) (null? '())))
 
-(or (null? '(a b c)) (null? '(atom))) ; #f, since neither list is empty
+(check-false (or (null? '(a b c)) (null? '(atom))))
 
 (define member?
   (λ (elem lat)
@@ -23,9 +24,9 @@
       [else (or (eq? (car lat) elem)
                 (member? elem (cdr lat)))])))
 
-(member? 'poached '(fried eggs and scrambled eggs)) ; #f, since the list does not contain 'poached
+(check-false (member? 'poached '(fried eggs and scrambled eggs)))
 
-(member? 'meat '(mashed potatoes and meat gravy)) ; #t, as 'meat is in the list
+(check-true (member? 'meat '(mashed potatoes and meat gravy)))
 
 ;; The First Commandment (preliminary): Always ask null? as the first question
 ;; in expressing any function.

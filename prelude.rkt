@@ -1,13 +1,12 @@
 #lang racket
 
 (provide atom?)
-(provide lat?)
-
 (define atom?
   (λ (x)
     (and (not (pair? x))
          (not (null? x)))))
 
+(provide lat?)
 (define lat?
   (λ (x)
     (cond [(null? x) #t]

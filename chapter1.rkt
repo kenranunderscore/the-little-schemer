@@ -1,129 +1,150 @@
 #lang racket
 
 (require "prelude.rkt")
+(require rackunit)
 
-(atom? '()) ; #f
+(check-false (atom? '()))
 
-(atom? 'atom) ; #t
+(check-true (atom? 'atom))
 
-(atom? 'turkey) ; #t
+(check-true (atom? 'turkey))
 
-(atom? 1492) ; #t
+(check-true (atom? 1492))
 
-(atom? 'u) ; #t
+(check-true (atom? 'u))
 
-(atom? '*abc$) ; #t
+(check-true (atom? '*abc$))
 
-(list? '(atom)) ; #t
+(check-pred list? '(atom))
 
-(list? '(atom turkey or)) ; #t
+(check-pred list? '(atom turkey or))
 
-(list? '((atom turkey) or)) ; #t
+(check-pred list? '((atom turkey) or))
 
-(list? '()) ; #t
+(check-pred list? '())
 
-(atom? '()) ; #f
+(check-false (atom? '()))
 
-(list? '(() () () ())) ; #t
+(check-pred list? '(() () () ()))
 
-(car '(a b c)) ; 'a
+(check-equal? (car '(a b c))
+              'a)
 
-(car '((a b c) x y z)) ; '(a b c)
+(check-equal? (car '((a b c) x y z))
+              '(a b c))
 
-(car 'hotdog) ; error: atom is not a list
+(check-exn exn:fail? (λ () (car 'hotdog))) ; error: an atom is not a list
 
-(car '()) ; error: cannot ask car of empty list
+(check-exn exn:fail? (λ () (car '()))) ; error: cannot ask car of empty list
 
 ;; The Law of Car: The primitive car is defined only for non-empty lists.
 
-(car '(((hotdogs)) (and) (pickle) relish)) ; '((hotdogs))
+(check-equal? (car '(((hotdogs)) (and) (pickle) relish))
+              '((hotdogs)))
 
-(car '(((hotdogs)) (and) (pickle) relish)) ; '((hotdogs))
+(check-equal? (car (car '(((hotdogs)) (and) (pickle) relish)))
+              '(hotdogs))
 
-(car (car '(((hotdogs)) (and) (pickle) relish))) ; '(hotdogs)
+(check-equal? (cdr '(a b c))
+              '(b c))
 
-(cdr '(a b c)) ; '(b c)
+(check-equal? (cdr '((a b c) x y z))
+              '(x y z))
 
-(cdr '((a b c) x y z)) ; '(x y z)
+(check-pred null? (cdr '(hamburger)))
 
-(cdr '(hamburger)) ; '()
+(check-equal? (cdr '((x) t r))
+              '(t r))
 
-(cdr '((x) t r)) ; '(t r)
+(check-exn exn:fail? (λ () (cdr 'hotdogs))) ; error: can only ask cdr of lists
 
-(cdr 'hotdogs) ; error: can only ask cdr of lists
-
-(cdr '()) ; error: cannot ask cdr of empty list
+(check-exn exn:fail? (λ () (cdr '()))) ; error: cannot ask cdr of empty list
 
 ;; The Law of Cdr: The primitive cdr is only defined for non-empty lists. The
 ;; cdr of any non-empty list is always another list.
 
-(car (cdr '((b) (x y) ((c))))) ; '(x y)
+(check-equal? (car (cdr '((b) (x y) ((c)))))
+              '(x y))
 
-(cdr (cdr '((b) (x y) ((c))))) ; '(((c)))
+(check-equal? (cdr (cdr '((b) (x y) ((c)))))
+              '(((c))))
 
-(cdr (car '(a (b (c)) d))) ; error: evaluates to (cdr 'a), and 'a is an atom
+(check-exn exn:fail? (λ () (cdr (car '(a (b (c)) d))))) ; error: evaluates to (cdr 'a), and 'a is an atom
 
-(cons 'peanut '(butter and jelly)) ; '(peanut butter and jelly)
+(check-equal? (cons 'peanut '(butter and jelly))
+              '(peanut butter and jelly))
 
-(cons '(banana and) '(peanut butter and jelly)) ; '((banana and) peanut butter and jelly)
+(check-equal? (cons '(banana and) '(peanut butter and jelly))
+              '((banana and) peanut butter and jelly))
 
-(cons '((help) this) '(is very ((hard) to learn))) ; '(((help) this) is very ((hard) to learn))
+(check-equal? (cons '((help) this) '(is very ((hard) to learn)))
+              '(((help) this) is very ((hard) to learn)))
 
-(cons '(a b (c)) '()) ; '((a b (c)))
+(check-equal? (cons '(a b (c)) '())
+              '((a b (c))))
 
-(cons 'a '()) ; '(a)
+(check-equal? (cons 'a '())
+              '(a))
 
-(cons 'a 'b) ; error: 'b is not a list
+(check-equal? (cons 'a 'b)
+              '(a . b))
+; 'b is not a list, but this does not raise an error nevertheless but
+; rather it creates a dotted pair '(a . b).
 
 ;; The Law of Cons: The primitive cons takes two arguments. The second argument
 ;; to cons must be a list. The result is a list.
 
-(cons 'a (car '((b) c d))) ; '(a b),
-; (car '((b) c d)) is '(b), which is the list we cons 'a to
+(check-equal? (cons 'a (car '((b) c d)))
+              '(a b))
 
-(cons 'a (cdr '((b) c d))) ; '(a c d)
-; (cdr '((b) c d)) is the list '(c d), then we prepend 'a
+(check-equal? (cons 'a (cdr '((b) c d)))
+              '(a c d))
 
-(null? '()) ; #t
+(check-pred null? '())
 
-(null? (quote ())) ; #t, same as above
+(check-pred null? (quote ()))
 
-(null? '(a b c)) ; #f, as the list is not empty
+(check-false (null? '(a b c)))
 
-(null? 'spaghetti) ; error: 'spaghetti is not a list
+(check-false (null? 'spaghetti))
 
 ;; The Law of Null: The primitive null is defined only for lists.
 
-(atom? 'harry) ; #t
+(check-pred atom? 'harry)
 
-(atom? '(Harry had a heap of apples)) ; #f
+(check-false (atom? '(Harry had a heap of apples)))
 
 ; atom? may take any s-exp as argument
 
-(atom? (car '(Harry had a heap of apples))) ; #t, since it evaluates to (atom? 'Harry)
+(check-pred atom? (car '(Harry had a heap of apples)))
 
-(atom? (cdr '(Harry had a heap of apples))) ; #f, the cdr is a list
+(check-false (atom? (cdr '(Harry had a heap of apples))))
 
-(atom? (cdr '(Harry))) ; #f
+(check-false (atom? (cdr '(Harry))))
 
-(atom? (car (cdr '(swing low sweet cherry oat)))) ; #t => (atom? 'low)
+(check-pred atom? (car (cdr '(swing low sweet cherry oat))))
 
-(atom? (car (cdr '(swing (low sweet) cherry oat)))) ; #f, => (atom? '(low sweet))
+(check-false (atom? (car (cdr '(swing (low sweet) cherry oat)))))
 
-(eq? 'Harry 'Harry) ; #t
+(check-true (eq? 'Harry 'Harry))
 
-(eq? 'margarine 'butter) ; #f
+(check-false (eq? 'margarine 'butter))
 
-(eq? '() '(strawberry)) ; error: these are not non-numeric atoms but lists
+(check-false (eq? '() '(strawberry)))
+; These are not non-numeric atoms but lists. Nevertheless Racket evaluates this
+; to false. (eq? '(a) '(a)) is #f though, too.
 
-(eq? 6 7) ; error: these are numeric atoms
+(check-false (eq? 6 7))
+; Racket just returns #f and is also able to correctly compare integers with
+; eq?.
 
 ;; The  Law of  Eq?: The  primitive  eq? takes  two  arguments. Each  must be  a
 ;; non-numeric atom.
 
-(eq? (car '(Mary had a little lamb chop) 'Mary)) ; #t
+(check-true (eq? (car '(Mary had a little lamb chop)) 'Mary))
 
-(eq? (cdr '(soured milk)) 'milk) ; #f, the cdr is a list
+(check-false (eq? (cdr '(soured milk)) 'milk))
 
-(eq? (car '(beans beans we need jelly beans))
-     (car (cdr '(beans beans we need jelly beans)))) ; #t
+(check-true
+ (eq? (car '(beans beans we need jelly beans))
+      (car (cdr '(beans beans we need jelly beans)))))
