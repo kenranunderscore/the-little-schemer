@@ -1,9 +1,6 @@
 #lang racket
 
-(define atom?
-  (λ (x)
-    (and (not (pair? x))
-         (not (null? x)))))
+(require "prelude.rkt")
 
 (atom? '()) ; #f
 
