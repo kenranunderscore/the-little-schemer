@@ -1,0 +1,5 @@
+* The (Little|Seasoned|Reasoned) Schemer exercises
+This is a repository that I use together with the books by Dan Friedman. I'll
+usually type the question as LISP/Scheme/Racket code, try to reason about its
+answer, then evaluate it in a REPL to see whether I'm right or wrong. Not much
+else to see here I guess.
