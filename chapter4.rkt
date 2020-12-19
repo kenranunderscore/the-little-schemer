@@ -205,6 +205,7 @@
               '(3 2 1 1 1))
 
 ; Check if two atoms are the same.
+(provide eqan?)
 (define eqan?
   (λ (a b)
     (cond [(and (number? a) (number? b)) (= a b)]
