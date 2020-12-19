@@ -129,6 +129,7 @@
 (check-false (my= 4 41))
 
 ; Calculate n to the m-th power.
+(provide pow)
 (define pow
   (λ (n m)
     (cond [(zero? m) 1]
