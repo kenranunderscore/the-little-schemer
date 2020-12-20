@@ -27,6 +27,7 @@
 ;; The Second Commandment: Use cons to build lists.
 
 ; Build a list out of the first elements of each list in lats.
+(provide firsts)
 (define firsts
   (λ (lats)
     (cond
@@ -117,6 +118,7 @@
               '(new o1 o2))
 
 ; Remove all occurrences of x in lat.
+(provide multirember)
 (define multirember
   (λ (x lat)
     (cond [(null? lat) '()]

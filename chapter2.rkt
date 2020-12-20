@@ -17,6 +17,7 @@
 
 (check-false (or (null? '(a b c)) (null? '(atom))))
 
+(provide member?)
 (define member?
   (λ (elem lat)
     (cond
