@@ -4,7 +4,7 @@
 (require "chapter4.rkt")
 (require rackunit)
 
-; Check whether an arithmetic expression contains only numbers an arithmetic
+; Check whether an arithmetic expression contains only numbers and arithmetic
 ; operators.
 (define numbered?
   (λ (aexp)
@@ -23,21 +23,25 @@
 ;; - On the subexpressions of an arithmetic expression.
 
 ; Get the first sub-expression of a numbered arithmetic expression.
+(provide 1st-sub-exp)
 (define 1st-sub-exp
   (λ (nexp)
     (car nexp)))
 
 ; Get the second sub-expression of a numbered arithmetic expression.
+(provide 2nd-sub-exp)
 (define 2nd-sub-exp
   (λ (nexp)
     (car (cdr (cdr nexp)))))
 
 ; Return the operator of a numbered arithmetic expression.
+(provide operator)
 (define operator
   (λ (nexp)
     (car (cdr nexp))))
 
 ; Return the value of a numbered arithmetic expression.
+(provide value)
 (define value
   (λ (nexp)
     (cond
