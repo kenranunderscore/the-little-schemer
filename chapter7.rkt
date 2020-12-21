@@ -127,6 +127,7 @@
 
 ; Check whether an S-expression is a pair, that is, it is a list containing
 ; exactly two S-expression.
+(provide a-pair?)
 (define a-pair?
   (λ (l)
     (cond
@@ -141,16 +142,19 @@
 (check-true (a-pair? '(full (house))))
 
 ; Get the first item of a pair.
+(provide first)
 (define first
   (λ (p)
     (car p)))
 
 ; Get the second item of a pair.
+(provide second)
 (define second
   (λ (p)
     (car (cdr p))))
 
 ; Build a pair out of two S-expressions.
+(provide build)
 (define build
   (λ (s1 s2)
     (cons s1 (cons s2 '()))))
@@ -167,6 +171,7 @@
 (check-false (fun? '((d 4) (b 0) (b 9) (e 5) (g 4))))
 
 ; Reverse a pair.
+(provide revpair)
 (define revpair
   (λ (p)
     (build (second p)

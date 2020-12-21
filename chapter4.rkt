@@ -163,6 +163,7 @@
               0)
 
 ; Get the n-th element of a list.
+(provide pick)
 (define pick
   (λ (n elems)
     (cond [(zero? (sub1 n)) (car elems)]
