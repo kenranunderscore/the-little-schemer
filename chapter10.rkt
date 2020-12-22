@@ -170,7 +170,13 @@
       [(eq? name 'cons) (cons (first vals) (second vals))]
       [(eq? name 'null?) (null? (first vals))]
       [(eq? name 'eq?) (eq? (first vals) (second vals))]
-      [(eq? name 'atom?) (atom? (first vals))]
+      [(eq? name 'atom?)
+       (cond
+         [(atom? (first vals)) #t]
+         [(null? (first vals)) #f]
+         [(eq? (car (first vals) 'primitive) #t)]
+         [(eq? (car (first vals)) 'non-primitive) #f]
+         [else #f])]
       [(eq? name 'zero?) (zero? (first vals))]
       [(eq? name 'add1) (add1 (first vals))]
       [(eq? name 'sub1) (sub1 (first vals))]
