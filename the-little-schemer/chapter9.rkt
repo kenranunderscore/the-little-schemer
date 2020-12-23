@@ -94,6 +94,7 @@
       [else (A (sub1 n) (A n (sub1 m)))])))
 
 ; The applicative-order Y combinator.
+(provide Y)
 (define Y
   (λ (le)
     ((λ (f) (f f))
