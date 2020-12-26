@@ -1,7 +1,7 @@
 #lang racket
 
 (require "prelude.rkt")
-(require "chapter4.rkt")
+(require "chapter04.rkt")
 (require rackunit)
 
 ; Remove all occurrences of an atom from a list of s-expressions and from all

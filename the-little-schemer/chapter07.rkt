@@ -1,8 +1,8 @@
 #lang racket
 
 (require "prelude.rkt")
-(require "chapter2.rkt")
-(require "chapter3.rkt")
+(require "chapter02.rkt")
+(require "chapter03.rkt")
 (require rackunit)
 
 ; Check if a lat is a set.

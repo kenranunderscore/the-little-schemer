@@ -1,7 +1,7 @@
 #lang racket
 
 (require "../the-little-schemer/prelude.rkt")
-(require "../the-little-schemer/chapter9.rkt")
+(require "../the-little-schemer/chapter09.rkt")
 (require rackunit)
 
 ;; (define multirember

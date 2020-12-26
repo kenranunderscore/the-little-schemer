@@ -1,7 +1,7 @@
 #lang racket
 
 (require "../the-little-schemer/prelude.rkt")
-(require "../the-little-schemer/chapter2.rkt")
+(require "../the-little-schemer/chapter02.rkt")
 (require rackunit)
 
 (check-true (member? 'sardines '(Italian sardines spaghetti parsley)))

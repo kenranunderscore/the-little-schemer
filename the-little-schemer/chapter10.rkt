@@ -1,7 +1,7 @@
 #lang racket
 
 (require "prelude.rkt")
-(require "chapter7.rkt")
+(require "chapter07.rkt")
 (require rackunit)
 
 ; Make a new entry, that is, a pair of two lists where the first list is a set

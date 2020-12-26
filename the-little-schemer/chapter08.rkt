@@ -1,8 +1,8 @@
 #lang racket
 
 (require "prelude.rkt")
-(require "chapter4.rkt")
-(require "chapter6.rkt")
+(require "chapter04.rkt")
+(require "chapter06.rkt")
 (require rackunit)
 
 ; Like rember, but we pass a function that knows how to compare two

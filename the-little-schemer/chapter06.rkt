@@ -1,7 +1,7 @@
 #lang racket
 
 (require "prelude.rkt")
-(require "chapter4.rkt")
+(require "chapter04.rkt")
 (require rackunit)
 
 ; Check whether an arithmetic expression contains only numbers and arithmetic

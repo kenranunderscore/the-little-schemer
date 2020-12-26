@@ -1,8 +1,8 @@
 #lang racket
 
 (require "prelude.rkt")
-(require "chapter4.rkt")
-(require "chapter7.rkt")
+(require "chapter04.rkt")
+(require "chapter07.rkt")
 (require rackunit)
 
 (define keep-looking
