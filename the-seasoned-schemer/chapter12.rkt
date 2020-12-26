@@ -57,6 +57,7 @@
               '(shrimp salad salad and))
 
 ; Check whether an atom is contained in a lat.
+(provide member?)
 (define member?
   (λ (a lat)
     (letrec
