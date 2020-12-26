@@ -75,3 +75,21 @@
 ;;; The Fifteenth Commandment (revised): Use (let ...) to name the values of
 ;;; repeated expressions in a function definition if they may be evaluated twice
 ;;; for one and the same use of the function.
+
+;; New version of leftmost using let/cc.
+(define leftmost%
+  (λ (l)
+    (let/cc skip
+      (letrec ([lm (λ (l)
+                     (cond
+                       [(null? l) '()]
+                       [(atom? (car l)) (skip (car l))]
+                       [else
+                        (let ()
+                          (lm (car l))
+                          (lm (cdr l)))]))])
+        (lm l)))))
+
+(check-equal? (leftmost% '((() (c (a))) b)) 'c)
+(check-equal? (leftmost% '()) '())
+(check-equal? (leftmost% '(a (b) ((c)))) 'a)
