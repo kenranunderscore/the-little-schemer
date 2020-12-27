@@ -93,3 +93,36 @@
 (check-equal? (leftmost% '((() (c (a))) b)) 'c)
 (check-equal? (leftmost% '()) '())
 (check-equal? (leftmost% '(a (b) ((c)))) 'a)
+
+(define rm
+  (λ (a l oh)
+    (cond
+      [(null? l) (oh 'no)]
+      [(atom? (car l))
+       (if (eq? (car l) a)
+           (cdr l)
+           (cons (car l)
+                 (rm a (cdr l) oh)))]
+      [else
+       (let ([new-car (let/cc oh (rm a (car l) oh))])
+         (if (atom? new-car)
+             (cons (car l) (rm a (cdr l) oh))
+             (cons new-car (cdr l))))])))
+
+;; New, shorter, version of rember1*. Unfortunately there is no 'try' keyword in
+;; Racket. We could us a macro, but we don't know about those yet.
+(define rember1*%
+  (λ (a l)
+    (let ([new-l (let/cc oh (rm a l oh))])
+      (if (atom? new-l)
+          l
+          new-l))))
+
+(check-equal? (rember1*% 'salad '((Swedish rye)
+                                  (French (mustard salad turkey))
+                                  salad))
+              '((Swedish rye)
+                (French (mustard turkey))
+                salad))
+(check-equal? (rember1*% 'noodles '((food) more (food)))
+              '((food) more (food)))
