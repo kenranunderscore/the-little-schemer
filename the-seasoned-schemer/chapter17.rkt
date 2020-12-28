@@ -65,3 +65,29 @@
 (deepM 7)
 (check-equal? (counter) 7)
 (check-equal? (supercounter deepM) 1000)
+
+(define rember1*C
+  (lambda (a l)
+    (letrec ([R (lambda (l oh)
+                  (cond
+                    [(null? l) (oh 'no)]
+                    [(atom? (car l))
+                     (if (eq? (car l) a)
+                         (cdr l)
+                         (consC (car l)
+                                (R (cdr l) oh)))]
+                    [else
+                     (let ([new-car (let/cc oh (R (car l) oh))])
+                       (if (atom? new-car)
+                           (consC (car l) (R (cdr l) oh))
+                           (consC new-car (cdr l))))]))])
+      (let ([new-l (let/cc oh (R l oh))])
+        (if (atom? new-l) l new-l)))))
+
+(set-counter 0)
+(check-equal? (rember1*C 'noodles '((food) more (food)))
+              '((food) more (food)))
+(check-pred zero? (counter))
+
+;; The version of rember1* that didn't use let/cc needs 5 calls to cons/consC to
+;; rebuild the list, even though 'noodles is not in there.
