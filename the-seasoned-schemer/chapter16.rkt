@@ -65,6 +65,7 @@
 
 ;; Get the result of deep corresponding to the number n in ns (which is
 ;; guaranteed to be contained in there).
+(provide find)
 (define find
   (λ (n ns rs)
     (letrec ([f (λ (ns rs)
